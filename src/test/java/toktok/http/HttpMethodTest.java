@@ -1,15 +1,11 @@
 package toktok.http;
 
-import com.google.common.collect.Sets;
 import org.junit.Test;
-import toktok.http.HttpMethod;
+import com.google.common.collect.Sets;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
 import static toktok.http.HttpMethod.GET;
 
 public class HttpMethodTest {
@@ -27,5 +23,10 @@ public class HttpMethodTest {
         Arrays.asList("get", "GET", "Get").forEach( name ->
                 assertEquals(GET, HttpMethod.byName(name))
         );
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void itShouldThrowExceptionOnByName() {
+        HttpMethod.byName("GHOST");
     }
 }
