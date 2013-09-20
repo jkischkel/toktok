@@ -6,6 +6,7 @@
 *.iws
 
 /bin/
+/out/
 /build/
 /.gradle/
 /.settings/
