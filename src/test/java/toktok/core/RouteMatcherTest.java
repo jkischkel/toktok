@@ -13,13 +13,13 @@ import static org.junit.Assert.assertNotNull;
 
 public class RouteMatcherTest {
 
-    RouteMatcher routes = RouteMatcher.INSTANCE;
+    RouteMatcher routes;
 
     Action testAction = req -> "test";
 
     @Before
     public void initialize() {
-        routes.clear();
+        routes = new RouteMatcher();
     }
 
     @Test
@@ -52,8 +52,8 @@ public class RouteMatcherTest {
     public void itShouldMatchByRegex() {
         routes.register(GET, "/users/:id", testAction);
 
-        Arrays.asList("/users/1", "/users/2", "/users/3").forEach( route ->
-            assertNotNull(routes.match(GET, route))
+        Arrays.asList("/users/1", "/users/2", "/users/3").forEach(route ->
+                assertNotNull(routes.match(GET, route))
         );
 
         Arrays.asList("/", "/users/", "/users/4/details").forEach( route ->

@@ -12,16 +12,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-enum RouteMatcher {
-
-    INSTANCE;
+class RouteMatcher {
 
     private final Map<HttpMethod, Map<Pattern, Action>> registry = New.map();
 
     RouteMatcher() {
         initRegistry();
     }
-
 
     void register(HttpMethod method, String route, Action action) {
         registry.get(method).put(prepareRoute(route), action);
