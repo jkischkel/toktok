@@ -1,4 +1,7 @@
 GRADLE	:= gradle
 
 all:
-	$(GRADLE) clean test
+	$(GRADLE) clean test jar
+
+run:
+	$(GRADLE) run
