@@ -7,12 +7,14 @@ public class Bootstrap {
 
     public static void main(String[] args) throws Exception {
         RouteMatcher matcher = new RouteMatcher();
+        matcher.register(HttpMethod.GET, "/",           req -> "hello");
+        matcher.register(HttpMethod.GET, "//",          req -> "double");
         matcher.register(HttpMethod.GET, "/users",      req -> "users");
         matcher.register(HttpMethod.GET, "/posts",      req -> "posts");
         matcher.register(HttpMethod.GET, "/sounds/:id", req -> "sounds");
 
         RouteHandler handler = new RouteHandler(matcher);
-        Server server = new Server(8080);
+        Server server = new Server(9090);
         server.setHandler(handler);
         server.start();
     }

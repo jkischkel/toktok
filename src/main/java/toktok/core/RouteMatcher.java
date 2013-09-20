@@ -1,6 +1,7 @@
 package toktok.core;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import toktok.http.HttpMethod;
 
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 
 public class RouteMatcher {
 
+    private static final Pattern PATTERN = Pattern.compile("(/(:?\\w+)?)+");
+
     private final Map<HttpMethod, Map<Pattern, Action>> registry;
 
     RouteMatcher() {
@@ -21,6 +24,7 @@ public class RouteMatcher {
     }
 
     public void register(HttpMethod method, String route, Action action) {
+        validateRoute(route);
         registry.get(method).put(prepareRoute(route), action);
     }
 
@@ -59,5 +63,11 @@ public class RouteMatcher {
 
     private String encode(String part) {
         return Pattern.matches(":\\w+", part) ? "(\\w+)" : part;
+    }
+
+    private void validateRoute(String route) {
+        Preconditions.checkArgument(
+                PATTERN.matcher(route).matches(),
+                String.format("'%s' is not a valid route", route));
     }
 }

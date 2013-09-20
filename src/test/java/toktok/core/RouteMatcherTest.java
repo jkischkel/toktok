@@ -5,11 +5,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.*;
 import static toktok.http.HttpMethod.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
 
 public class RouteMatcherTest {
 
@@ -53,11 +50,21 @@ public class RouteMatcherTest {
         routes.register(GET, "/users/:id", testAction);
 
         Arrays.asList("/users/1", "/users/2", "/users/3").forEach(route ->
-                assertNotNull(routes.match(GET, route))
+            assertNotNull(routes.match(GET, route))
         );
 
-        Arrays.asList("/", "/users/", "/users/4/details").forEach( route ->
+        Arrays.asList("/", "/users/", "/users/4/details").forEach(route ->
             assertNull(routes.match(GET, route))
         );
+    }
+
+    @Test
+    public void itShouldOnlyAllowValidPathElements() {
+        Arrays.asList("/w+", "\\p", "/&/", "/:/", "slash").forEach(badRoute -> {
+            try {
+                routes.register(GET, badRoute, testAction);
+                assertTrue(String.format("%s got accepted", badRoute), false);
+            } catch(IllegalArgumentException e) {}
+        });
     }
 }
