@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static toktok.core.HttpMethod.*;
+import static toktok.http.HttpMethod.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

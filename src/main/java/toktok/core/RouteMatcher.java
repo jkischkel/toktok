@@ -1,30 +1,30 @@
 package toktok.core;
 
 import com.google.common.base.Joiner;
-import toktok.util.New;
+import com.google.common.collect.Maps;
+import toktok.http.HttpMethod;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-class RouteMatcher {
+public class RouteMatcher {
 
-    private final Map<HttpMethod, Map<Pattern, Action>> registry = New.map();
+    private final Map<HttpMethod, Map<Pattern, Action>> registry;
 
     RouteMatcher() {
+        registry = Maps.newHashMap();
         initRegistry();
     }
 
-    void register(HttpMethod method, String route, Action action) {
+    public void register(HttpMethod method, String route, Action action) {
         registry.get(method).put(prepareRoute(route), action);
     }
 
-    Action match(HttpMethod method, String route) {
+    public Action match(HttpMethod method, String route) {
         Optional<Pattern> pattern = registry.get(method).keySet().stream()
                 .filter(e -> e.matcher(route).matches())
                 .findFirst();
@@ -39,7 +39,7 @@ class RouteMatcher {
 
 
     private void initRegistry() {
-        HttpMethod.all().forEach(m -> registry.put(m, New.map()));
+        HttpMethod.all().forEach(m -> registry.put(m, Maps.newHashMap()));
     }
 
     private Pattern prepareRoute(String route) {

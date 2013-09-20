@@ -1,6 +1,7 @@
 package toktok.core;
 
 import org.eclipse.jetty.server.Server;
+import toktok.http.HttpMethod;
 
 public class Bootstrap {
 
@@ -10,7 +11,7 @@ public class Bootstrap {
         matcher.register(HttpMethod.GET, "/posts",      req -> "posts");
         matcher.register(HttpMethod.GET, "/sounds/:id", req -> "sounds");
 
-        RouteHandler handler = new RouteHandler(matcher);
+        HttpMethod.RouteHandler handler = new HttpMethod.RouteHandler(matcher);
 
         Server server = new Server(8080);
         server.setHandler(handler);

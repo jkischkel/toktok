@@ -1,16 +1,16 @@
-package toktok.core;
+package toktok.http;
 
 import com.google.common.collect.Sets;
 import org.junit.Test;
+import toktok.http.HttpMethod;
 
 import java.util.Arrays;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
-import static toktok.core.HttpMethod.GET;
+import static toktok.http.HttpMethod.GET;
 
 public class HttpMethodTest {
 
