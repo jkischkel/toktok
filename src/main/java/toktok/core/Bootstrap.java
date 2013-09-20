@@ -11,8 +11,7 @@ public class Bootstrap {
         matcher.register(HttpMethod.GET, "/posts",      req -> "posts");
         matcher.register(HttpMethod.GET, "/sounds/:id", req -> "sounds");
 
-        HttpMethod.RouteHandler handler = new HttpMethod.RouteHandler(matcher);
-
+        RouteHandler handler = new RouteHandler(matcher);
         Server server = new Server(8080);
         server.setHandler(handler);
         server.start();

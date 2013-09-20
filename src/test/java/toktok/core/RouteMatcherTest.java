@@ -38,7 +38,7 @@ public class RouteMatcherTest {
 
         assertNotNull(match);
         assertNotNull(match);
-        assertEquals("test", match.apply("request"));
+        assertEquals("test", match.apply(null));
     }
 
     @Test
