@@ -12,7 +12,15 @@ public enum HttpMethod {
 
     PUT;
 
+
     static Set<HttpMethod> all() {
         return new HashSet<>(Arrays.asList(HttpMethod.values()));
+    }
+
+    static HttpMethod byName(String name) {
+        return  all().stream()
+                .filter(m -> m.name().equals(name.toUpperCase()))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }
