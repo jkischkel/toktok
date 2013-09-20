@@ -29,7 +29,7 @@ public class RouteMatcher {
                 .filter(e -> e.matcher(route).matches())
                 .findFirst();
 
-        return pattern.isPresent() ? registry.get(method).get(pattern.get()) : null;
+        return registry.get(method).get(pattern.orElse(null));
     }
 
     void clear() {
@@ -58,6 +58,6 @@ public class RouteMatcher {
     }
 
     private String encode(String part) {
-        return Pattern.matches(":(\\w+)", part) ? "(\\w+)" : part;
+        return Pattern.matches(":\\w+", part) ? "(\\w+)" : part;
     }
 }
