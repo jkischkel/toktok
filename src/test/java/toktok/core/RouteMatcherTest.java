@@ -57,14 +57,4 @@ public class RouteMatcherTest {
             assertNull(routes.match(GET, route))
         );
     }
-
-    @Test
-    public void itShouldOnlyAllowValidPathElements() {
-        Arrays.asList("/w+", "\\p", "/&/", "/:/", "slash").forEach(badRoute -> {
-            try {
-                routes.register(GET, badRoute, testAction);
-                assertTrue(String.format("%s got accepted", badRoute), false);
-            } catch(IllegalArgumentException e) {}
-        });
-    }
 }
