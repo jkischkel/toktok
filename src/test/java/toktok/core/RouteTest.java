@@ -22,7 +22,7 @@ public class RouteTest {
 
     @Test
     public void itShouldOnlyAllowValidPathElements() {
-        Arrays.asList("/w+", "\\p", "/&/", "/:/", "slash").forEach(badRoute -> {
+        Arrays.asList("/w+", "\\p", "/&/", "/:/", null).forEach(badRoute -> {
             try {
                 Route.from(badRoute);
                 assertTrue(String.format("%s got accepted", badRoute), false);

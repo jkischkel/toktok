@@ -10,9 +10,11 @@ public class RouteMatcher {
 
     private final Map<HttpMethod, Map<Route, Action>> registry;
 
-    RouteMatcher() {
+    public RouteMatcher() {
         registry = Maps.newHashMap();
-        initRegistry();
+
+        HttpMethod.all().forEach(m ->
+                registry.put(m, Maps.newHashMap()));
     }
 
     public void register(HttpMethod method, String route, Action action) {
@@ -25,15 +27,5 @@ public class RouteMatcher {
                 .findFirst();
 
         return registry.get(method).get(pattern.orElse(null));
-    }
-
-    void clear() {
-        registry.clear();
-        initRegistry();
-    }
-
-
-    private void initRegistry() {
-        HttpMethod.all().forEach(m -> registry.put(m, Maps.newHashMap()));
     }
 }

@@ -1,14 +1,13 @@
 package toktok.core;
 
-import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public final class Route {
+final class Route {
 
     private static final Pattern PATTERN = Pattern.compile("(/(:?\\w+)?)+");
 
@@ -21,7 +20,7 @@ public final class Route {
         this.pattern = pattern;
     }
 
-    public boolean matches(String path) {
+    boolean matches(String path) {
         return pattern.matcher(path).matches();
     }
 
@@ -37,38 +36,33 @@ public final class Route {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
         if (o == null || getClass() != o.getClass())
             return false;
 
-        Route other = (Route) o;
-        return route.equals(other.route);
+        return Objects.equal(route, ((Route) o).route);
     }
 
 
-    public static Route from(String route) {
+    static Route from(String route) {
         Preconditions.checkArgument(
-                PATTERN.matcher(route).matches(),
+                route != null && PATTERN.matcher(route).matches(),
                 String.format("'%s' is not a valid route", route));
 
-        return new Route(route, prepareRoute(route));
+        return new Route(route, encodeRoute(route));
 
     }
 
-    private static Pattern prepareRoute(String route) {
+    private static Pattern encodeRoute(String route) {
+        String result = route;
         String[] parts = route.split("/");
 
-        if (parts.length == 0) {
-            return Pattern.compile(route);
+        if (parts.length > 0) {
+            result = Arrays.asList(parts).stream()
+                .map(Route::encode)
+                .collect(Collectors.joining("/"));
         }
 
-        List<String> encoded = Arrays.asList(parts).stream()
-                .map(Route::encode)
-                .collect(Collectors.<String>toList());
-
-        String encodedRoute = Joiner.on("/").join(encoded);
-        return Pattern.compile(encodedRoute);
+        return Pattern.compile(result);
     }
 
     private static String encode(String part) {

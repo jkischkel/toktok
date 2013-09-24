@@ -20,15 +20,6 @@ public class RouteMatcherTest {
     }
 
     @Test
-    public void itShouldSupportResetting() {
-        routes.register(GET, "/", testAction);
-        assertNotNull(routes.match(GET, "/"));
-
-        routes.clear();
-        assertNull(routes.match(GET, "/"));
-    }
-
-    @Test
     public void itShouldSupportHandlerRegistration() {
         routes.register(GET, "/hello", testAction);
         Action match = routes.match(GET, "/hello");
