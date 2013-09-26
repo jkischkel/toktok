@@ -1,4 +1,3 @@
 package toktok.http;
 
-public class Request {
-}
+public class Request { }

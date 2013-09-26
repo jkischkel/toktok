@@ -4,4 +4,4 @@ import toktok.http.Request;
 
 import java.util.function.Function;
 
-public interface Action extends Function<Request, String> {}
+public interface Action extends Function<Request, ActionResult> {}

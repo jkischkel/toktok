@@ -37,11 +37,11 @@ public class Start {
             Action action = matcher.match(GET, request.getPathInfo());
 
             if (action != null) {
-                String result = action.apply(null);
+                ActionResult result = action.apply(new toktok.http.Request());
 
-                httpResponse.setStatus(HttpServletResponse.SC_OK);
+                httpResponse.setStatus(result.getStatus());
                 httpResponse.setContentType("text/html;charset=utf-8");
-                httpResponse.getWriter().printf("<h1>%s</h1>\n", result);
+                httpResponse.getWriter().println(result.getContent());
 
             } else {
                 httpResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);

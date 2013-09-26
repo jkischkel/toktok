@@ -20,6 +20,6 @@ public interface Controller {
     }
 
     default RouteMatcher routeMatcher() {
-        return new RouteMatcher();
+        return DefaultRouteMatcher.instance.matcher();
     }
 }

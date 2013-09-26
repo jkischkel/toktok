@@ -2,6 +2,7 @@ package toktok.core;
 
 import org.junit.Before;
 import org.junit.Test;
+import toktok.render.Renderer;
 
 import java.util.Arrays;
 
@@ -12,7 +13,7 @@ public class RouteMatcherTest {
 
     RouteMatcher routes;
 
-    Action testAction = req -> "test";
+    Action testAction = req -> Renderer.instance.text("test");
 
     @Before
     public void initialize() {
@@ -25,8 +26,7 @@ public class RouteMatcherTest {
         Action match = routes.match(GET, "/hello");
 
         assertNotNull(match);
-        assertNotNull(match);
-        assertEquals("test", match.apply(null));
+        assertEquals("test", match.apply(null).getContent());
     }
 
     @Test
