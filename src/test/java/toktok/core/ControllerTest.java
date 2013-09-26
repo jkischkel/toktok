@@ -1,0 +1,66 @@
+package toktok.core;
+
+import static toktok.http.HttpMethod.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import toktok.http.HttpMethod;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+/**
+ * @author Jan Kischkel
+ */
+public class ControllerTest {
+
+    TestController ctrl;
+
+    @Before
+    public void initialize() {
+        ctrl = new TestController();
+    }
+
+    @Test
+    public void itShouldRegisterGetRoutes() {
+        ctrl.get("/get/route/:id", (req) -> "getRoute");
+        assertEquals("getRoute", ctrl.lookup(GET, "/get/route/1"));
+    }
+
+    @Test
+    public void itShouldRegisterPostRoutes() {
+        ctrl.post("/post/route/:id", (req) -> "postRoute");
+        assertEquals("postRoute", ctrl.lookup(POST, "/post/route/2"));
+    }
+
+    @Test
+    public void itShouldRegisterPutRoutes() {
+        ctrl.put("/put/route/:id", (req) -> "putRoute");
+        assertEquals("putRoute", ctrl.lookup(PUT, "/put/route/3"));
+    }
+
+    @Test
+    public void itShouldOnlyRegisterForGivenHttpMethod() {
+        String route = "/exclusive";
+        ctrl.post(route, (req) -> "");
+
+        assertNull(ctrl.lookup(GET, route));
+        assertNotNull(ctrl.lookup(POST, route));
+    }
+
+    private static class TestController implements Controller {
+        RouteMatcher matcher = new RouteMatcher();
+
+        @Override
+        public RouteMatcher routeMatcher() {
+            return matcher;
+        }
+
+        Object lookup(HttpMethod method, String route) {
+            Action match = routeMatcher().match(method, route);
+
+            return match != null ? match.apply(null) : match;
+        }
+    }
+}
