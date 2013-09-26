@@ -18,6 +18,11 @@ public class HttpMethodTest {
         );
     }
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void itShouldReturnUnmodifiableSetFromAll() {
+        HttpMethod.all().clear();
+    }
+
     @Test
     public void itShouldFindMethodsByName() {
         Arrays.asList("get", "GET", "Get").forEach( name ->
