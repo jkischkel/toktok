@@ -1,6 +1,10 @@
 package toktok.core;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * @author Jan Kischkel
@@ -11,9 +15,15 @@ public final class ActionResult {
 
     private final String content;
 
-    private ActionResult(Integer status, String content) {
+    private final Map<String, String> headers;
+
+    private ActionResult(
+            Integer status,
+            String content,
+            Map<String, String> headers) {
         this.status = status;
         this.content = content;
+        this.headers = Collections.unmodifiableMap(headers);
     }
 
     public Integer getStatus() {
@@ -22,6 +32,17 @@ public final class ActionResult {
 
     public String getContent() {
         return content;
+    }
+
+    public Map<String, String> headers() {
+        return headers;
+    }
+
+    public ActionResult withHeader(String name, String value) {
+        Map<String, String> copy = Maps.newHashMap(headers());
+        copy.put(name, value);
+
+        return new ActionResult(status, content, copy);
     }
 
     @Override
@@ -52,6 +73,6 @@ public final class ActionResult {
     }
 
     public static ActionResult create(int status, String content) {
-        return new ActionResult(status, content);
+        return new ActionResult(status, content, Collections.emptyMap());
     }
 }

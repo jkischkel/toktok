@@ -12,10 +12,11 @@ public interface JsonRenderer {
     Json json = JsonFactory.jackson();
 
     default ActionResult json(Object o) {
-        return ActionResult.create(json.render(o));
+        return json(200, o);
     }
 
     default ActionResult json(int status, Object o) {
-        return ActionResult.create(status, json.render(o));
+        return ActionResult.create(status, json.render(o))
+                .withHeader("Content-Type", "application/json");
     }
 }

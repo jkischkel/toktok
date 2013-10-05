@@ -8,10 +8,11 @@ import toktok.core.ActionResult;
 public interface TextRenderer {
 
     default ActionResult text(String text) {
-        return ActionResult.create(text);
+        return text(200, text);
     }
 
     default ActionResult text(int status, String text) {
-        return ActionResult.create(status, text);
+        return ActionResult.create(status, text)
+                .withHeader("Content-Type", "text/plain");
     }
 }

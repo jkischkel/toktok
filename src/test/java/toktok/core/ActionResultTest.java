@@ -34,6 +34,19 @@ public class ActionResultTest {
     }
 
     @Test
+    public void itShouldAcceptHeaders() {
+        ActionResult ok = ActionResult.create("ok").withHeader("name", "value");
+
+        assertEquals(1, ok.headers().size());
+        assertEquals("value", ok.headers().get("name"));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void itShouldProvideImmutableHeaders() {
+        ActionResult.create("halt").headers().clear();
+    }
+
+    @Test
     public void itShouldEqualByStatusContent() {
         assertEquals(
                 ActionResult.create("same"),

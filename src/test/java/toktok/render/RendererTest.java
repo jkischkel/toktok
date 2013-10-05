@@ -5,8 +5,10 @@ import com.google.common.collect.Sets;
 import org.junit.Test;
 import toktok.core.ActionResult;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import java.util.Arrays;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Jan Kischkel
@@ -36,6 +38,11 @@ public class RendererTest {
     }
 
     @Test
+    public void itShouldRenderEmptyActionResultWithNoContentType() {
+        assertFalse(nothing.nothing().headers().containsKey("Content-Type"));
+    }
+
+    @Test
     public void itShouldRenderPlainText() {
         ActionResult result = text.text("response");
 
@@ -49,6 +56,14 @@ public class RendererTest {
 
         assertEquals("custom", result.getContent());
         assertEquals(Integer.valueOf(302), result.getStatus());
+    }
+
+    @Test
+    public void itShouldRenderPlainTextWithContentTypeHeader() {
+        String contentType = text.text("text").headers().get("Content-Type");
+
+        assertNotNull(contentType);
+        assertEquals("text/plain", contentType);
     }
 
     @Test
@@ -68,5 +83,13 @@ public class RendererTest {
 
         assertEquals("{\"metric\":\"any\"}", result.getContent());
         assertEquals(Integer.valueOf(404), result.getStatus());
+    }
+
+    @Test
+    public void itShouldRenderJsonResponsesWithContentTypeHeader() {
+        String contentType = json.json("").headers().get("Content-Type");
+
+        assertNotNull(contentType);
+        assertEquals("application/json", contentType);
     }
 }
