@@ -37,6 +37,13 @@ public class RouteMatcherTest {
     }
 
     @Test
+    public void itShouldAcceptTrailingSlash() {
+        routes.register(GET, "/posts", testAction);
+
+        assertNotNull(routes.match(GET, "/posts/"));
+    }
+
+    @Test
     public void itShouldMatchByRegex() {
         routes.register(GET, "/users/:id", testAction);
 
@@ -47,5 +54,13 @@ public class RouteMatcherTest {
         Arrays.asList("/", "/users/", "/users/4/details").forEach(route ->
             assertNull(routes.match(GET, route))
         );
+    }
+
+    @Test
+    public void itShouldProvideDefaultMatcher() {
+        RouteMatcher matcher = RouteMatcher.DefaultMatcher.instance.matcher();
+        matcher.register(GET, "/", testAction);
+
+        assertNotNull(matcher.match(GET, "/"));
     }
 }

@@ -15,7 +15,8 @@ public class Bootstrap {
     }}
 
     public static void main(String[] args) throws Exception {
-        new SampleController();
-        Start.jetty(DefaultRouteMatcher.instance.matcher());
+       AnnotationScanner.createAllIn("toktok.core", Ctrl.class);
+
+       Start.jetty(RouteMatcher.DefaultMatcher.instance.matcher());
     }
 }

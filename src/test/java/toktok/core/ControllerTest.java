@@ -54,6 +54,7 @@ public class ControllerTest {
     }
 
     private static class TestController implements Controller {
+
         RouteMatcher matcher = new RouteMatcher();
 
         @Override
@@ -63,7 +64,6 @@ public class ControllerTest {
 
         Object lookup(HttpMethod method, String route) {
             Action match = routeMatcher().match(method, route);
-
             return match != null ? match.apply(null).getContent() : match;
         }
     }

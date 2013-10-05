@@ -36,10 +36,8 @@ final class Route {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        return Objects.equal(route, ((Route) o).route);
+        return o != null && getClass() == o.getClass()
+            && Objects.equal(route, ((Route) o).route);
     }
 
 

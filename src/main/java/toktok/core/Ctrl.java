@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
  * @author Jan Kischkel
  */
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Ctrl {}
